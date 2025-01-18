@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <title>沙盒</title>
+</head>
+<body>
+<script>
+    const originalConsoleLog = console.log;
+    console.log = function(...args) {
+        window.parent.postMessage({ type: 'log', args: Array.from(args) }, window.location.origin);
+        originalConsoleLog.apply(console, args); // 保留 iframe 控制台中的日志
+    };
+    async function asyncEval(code) {
+        return new Promise((resolve, reject) => {
+            try {
+                const result = eval(code);
+                resolve(result);
+            } catch (error) {
+                reject(error);
+            }
+        });
+    }
+
+    window.onmessage = async (event) => {
+        if (event.origin === window.location.origin) {
+            try {
+                const result = await asyncEval(event.data.code);
+                window.parent.postMessage(result, window.location.origin);
+            } catch (error) {
+                window.parent.postMessage({ error: error.message }, window.location.origin);
+            }
+        } else {
+            console.error('从不受信任的来源收到的消息: ', event.origin);
+        }
+    };
+</script>
+</body>
+</html>
