@@ -2261,6 +2261,7 @@ async function streamChat(can_use_tools = true) {
         enableCopyForCode();
         enableChat();
         toggleAiGenAnimation(false);
+        toggleAiGenAnimation(false);
     }
 }
 
@@ -2610,6 +2611,7 @@ async function geminiStreamChat(fileUri, data) {
         enableCopyForCode();
         enableChat();
         //toggleAnimation(true)
+        toggleAiGenAnimation(false);
         toggleAiGenAnimation(false);
     }
 } // geminiStreamChat
