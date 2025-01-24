@@ -33,6 +33,14 @@ let converter = new showdown.Converter();
 
 ///您可以添加任何与 OpenAI API 兼容的提供程序
 let PLATFORM_DATA = {
+    deepseek: {
+        models: [
+            "deepseek-reasoner",
+            "deepseek-chat"
+        ],
+        name: "DeepSeek",
+        endpoint: "https://api.deepseek.com/chat/completions"
+    },
     openai: {
         models: [
             "gpt-4o",
